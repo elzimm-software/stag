@@ -1,6 +1,6 @@
 mod renderable;
 mod state;
-mod edge;
+mod transition;
 mod unique_bool;
 
 use std::fs::File;

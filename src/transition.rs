@@ -1,12 +1,12 @@
 
-pub struct Edge {
+pub struct Transition {
     var_start: String,
     var_end: String,
     positional_args: Vec<String>,
     edge_text: Option<String>,
 }
 
-impl Edge {
+impl Transition {
     pub fn from(var_start: &str, var_end: &str, positional_args: &[String], edge_text: Option<&str>) -> Result<Self, ()> {
         Ok(Self {
             var_start: var_start.to_string(),

@@ -30,13 +30,13 @@ A state can be identified as accepting by adding a `*` immediately following the
 A state can be defined as both accepting and initial by including both `*` and `>` following the parenthesis
 e.g. `()*<[]` or `()<*[]`.
 
-### Edges
+### Transitions
 
-Edges are defined in the form `<var start> --(<positional arguments>)[[edge text]]> <var end>`
-where `var start` is the state the edge starts from,
-`var end` is the state the edge goes to,
-`edge text` is the text displayed on the edge,
-and `positional arguments` define the displayed position of the edge (Eventually I'd like this to be optional.)
+Transitions are defined in the form `<var start> --(<positional arguments>)[[edge text]]> <var end>`
+where `var start` is the state the transition starts from,
+`var end` is the state the transition goes to,
+`edge text` is the text displayed on the transition,
+and `positional arguments` define the displayed position of the transition (Eventually I'd like this to be optional.)
 e.g. `q1--(above)[1]>q1`.
 
 ## Source Code
