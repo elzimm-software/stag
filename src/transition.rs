@@ -19,4 +19,8 @@ impl Transition {
             },
         })
     }
+    
+    pub fn build(&self) -> String {
+        String::new()
+    }
 }
