@@ -1,0 +1,6 @@
+(q1)<[S_1]
+(q2)[S_2]
+(q3)*[S_3]
+q1--[above]>q2
+q2--[above]>q3
+q3--[bend left, below]>q1
