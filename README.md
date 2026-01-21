@@ -13,7 +13,7 @@ defining connections and `name` is the displayed text inside the state e.g. `(q1
 The name block is optional and when omitted `var` will be used as the displayed text.
 To define a node with no text simply leave the `[]` empty.
 A state must be defined before it is referenced by an edge.
-`var` may include alphanumeric characters, '-', and '_' and must start with a letter and end with an alphanumeric.
+`var` may include alphanumeric characters, '-', and '_' and must start with a letter.
 `name` is copied into the compiled latex verbatim and may include any valid LaTeX.
 
 
