@@ -1,4 +1,4 @@
-use crate::only_bool::UniqueBool;
+use crate::unique_bool::UniqueBool;
 
 pub struct State {
     var: String,
