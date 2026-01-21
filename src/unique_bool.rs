@@ -31,7 +31,7 @@ impl UniqueBool {
     pub unsafe fn try_set(&mut self, value: bool) -> Result<(),()> {
         let ptr = TRUE_ID.as_ptr();
         unsafe {
-            if *ptr == 0 && value {
+            if *ptr == 0 {
                 if value {
                     *ptr = self.id;
                 }
@@ -66,6 +66,8 @@ mod tests {
             assert!(a.is_true());
             assert_eq!(a.try_set(true), Ok(()));
             assert!(a.is_true());
+            assert_eq!(a.try_set(false), Ok(()));
+            assert!(!a.is_true());
             assert_eq!(a.try_set(false), Ok(()));
             assert!(!a.is_true());
         }
