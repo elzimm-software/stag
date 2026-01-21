@@ -13,8 +13,15 @@ unsafe fn get_next_id() -> u32 {
     }
 }
 
+#[derive(Debug, Eq)]
 pub struct UniqueBool {
     id: u32,
+}
+
+impl PartialEq for UniqueBool {
+    fn eq(&self, other: &Self) -> bool {
+        !(self.is_true() || other.is_true())
+    }
 }
 
 impl UniqueBool {
