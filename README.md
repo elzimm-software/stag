@@ -6,10 +6,17 @@ The initial intent for this DSL was to be integrated into org-mode via org-babel
 
 ## Grammar
 
+### Top Matter
+
+Any additional top matter, such as extra `\usepackage` declarations, may be included prior to the first state definition
+and should be delimited by double quotes e.g. `"\usepackage{amsmath}"`.
+
 ### States
 
-A state is defined in the form `(<var>)[[name]]` where `var` is the identifier used to reference the state when
-defining connections and `name` is the displayed text inside the state e.g. `(q1)[S_1]`.
+A state is defined in the form `(<var>[: <positional arguments>])[[name]]`
+where `var` is the identifier used to reference the state when defining connections,
+`positional arguments` define the position of the state,
+and `name` is the displayed text inside the state e.g. `(q1)[S_1]`.
 The name block is optional and when omitted `var` will be used as the displayed text.
 To define a node with no text simply leave the `[]` empty.
 A state must be defined before it is referenced by an edge.
@@ -36,8 +43,14 @@ Transitions are defined in the form `<var start> --(<positional arguments>)[[edg
 where `var start` is the state the transition starts from,
 `var end` is the state the transition goes to,
 `edge text` is the text displayed on the transition,
-and `positional arguments` define the displayed position of the transition (Eventually I'd like this to be optional.)
+and `positional arguments` define the position of the transition (Eventually I'd like this to be optional.)
 e.g. `q1--(above)[1]>q1`.
+
+### Comments
+
+While lines do not need to end in a semicolon, if a semicolon is present the rest of the line will be ignored
+and can be used for comments.  (In future I'd like to implement a 'doc comment' functionality,
+where text after a double semicolon (`;;`) will be copied over into the compiled .tex output.)
 
 ## Source Code
 
