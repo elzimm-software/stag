@@ -1,4 +1,4 @@
-# [S]tate Diagrams from [T]ikz Defined in [A]SCII and [G]enerated by Latex
+# [S]tate Diagrams from [T]ikz Defined in [A]SCII and [G]enerated by LaTeX
 
 STAG is a DSL designed to quickly define state transition diagrams as plaintext which can be compiled to 
 tikz latex standalones and then rendered with any desired latex compiler.
