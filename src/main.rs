@@ -12,6 +12,11 @@ use clap::Parser;
 struct Args {
     /// Source code or path to source file
     source: String,
+    
+    /// Automatically wrap state and transition names in '$'
+    #[arg(short, long)]
+    assume_math: bool,
+    
     /// Skip path check
     #[arg(short, long)]
     ignore_path: bool,
