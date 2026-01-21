@@ -12,9 +12,9 @@ impl State {
         let mut init_unique = UniqueBool::new();
         unsafe {init_unique.try_set(initial)?}
         Ok(Self {
-            var: var.into_string(),
+            var: var.to_string(),
             name: if let Some(s) = name {
-                Some(s.into_string())
+                Some(s.to_string())
             } else {
                 None
             },

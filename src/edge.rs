@@ -9,11 +9,11 @@ pub struct Edge {
 impl Edge {
     pub fn from(var_start: &str, var_end: &str, positional_args: &[String], edge_text: Option<&str>) -> Result<Self, ()> {
         Ok(Self {
-            var_start: var_start.into_string(),
-            var_end: var_end.into_string(),
-            positional_args: positional_args.into_vec(),
+            var_start: var_start.to_string(),
+            var_end: var_end.to_string(),
+            positional_args: positional_args.to_vec(),
             edge_text: if let Some(s) = edge_text {
-                Some(s.into_string())
+                Some(s.to_string())
             } else {
                 None
             },
