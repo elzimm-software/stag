@@ -1,11 +1,13 @@
 mod state;
 mod transition;
 mod unique_bool;
+mod standalone;
 
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;
 use clap::Parser;
+use crate::standalone::Standalone;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -37,6 +39,10 @@ fn read_file<P: AsRef<Path>>(path: P) -> String {
     source
 }
 
+fn compile(source: &String) -> Standalone {
+   Standalone::new()
+}
+
 fn main() {
     let args = Args::parse();
     let source = if !args.ignore_path && is_file(&args.source) {
@@ -44,5 +50,6 @@ fn main() {
     } else {
         args.source
     };
-    println!("{}", source)
+    let document = compile(&source);
+    println!("{}", document.build());
 }
