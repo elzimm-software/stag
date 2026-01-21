@@ -1,3 +1,5 @@
+mod only_bool;
+
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;

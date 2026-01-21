@@ -1,14 +1,16 @@
-use std::sync::Mutex;
+use std::sync::atomic::{AtomicU32, Ordering};
 
-static TRUE_ID: Mutex<u32> = Mutex::new(0);
+static TRUE_ID: AtomicU32 = AtomicU32::new(0);
 
-static NEXT_ID: Mutex<u32> = Mutex::new(1);
+static NEXT_ID: AtomicU32 = AtomicU32::new(1);
 
-fn get_next_id() -> u32 {
-    let mut ptr = NEXT_ID.lock().expect("Error: NEXT_ID is poisoned");
-    let id = *ptr;
-    *ptr = *ptr + 1;
-    id
+unsafe fn get_next_id() -> u32 {
+    let ptr = NEXT_ID.as_ptr();
+    unsafe {
+        let id = *ptr;
+        *ptr = *ptr + 1;
+        id
+    }
 }
 
 pub struct UniqueBool {
@@ -16,30 +18,32 @@ pub struct UniqueBool {
 }
 
 impl UniqueBool {
-    pub fn new() -> UniqueBool {
+    pub fn new() -> Self {
         Self {
-            id: get_next_id(),
+            id: unsafe {get_next_id()},
         }
     }
 
     pub fn is_true(&self) -> bool {
-        self.id == *TRUE_ID.lock().expect("Error: TRUE_ID is poisoned.")
+        self.id == TRUE_ID.load(Ordering::Relaxed)
     }
 
-    pub fn try_set(&mut self, value: bool) -> Result<(),()> {
-        let mut ptr = TRUE_ID.lock().expect("Error: TRUE_ID is poisoned.");
-        if *ptr == 0 && value {
-            if value {
-                *ptr = self.id;
+    pub unsafe fn try_set(&mut self, value: bool) -> Result<(),()> {
+        let ptr = TRUE_ID.as_ptr();
+        unsafe {
+            if *ptr == 0 && value {
+                if value {
+                    *ptr = self.id;
+                }
+                Ok(())
+            } else if self.id == *ptr {
+                if !value {
+                    *ptr = 0;
+                }
+                Ok(())
+            } else {
+                Err(())
             }
-            Ok(())
-        } else if self.id == *ptr {
-            if !value {
-                *ptr = 0;
-            }
-            Ok(())
-        } else {
-            Err(())
         }
     }
 }
@@ -57,23 +61,27 @@ mod tests {
     #[test]
     fn test_set() {
         let mut a = UniqueBool::new();
-        assert_eq!(a.try_set(true), Ok(()));
-        assert!(a.is_true());
-        assert_eq!(a.try_set(true), Ok(()));
-        assert!(a.is_true());
-        assert_eq!(a.try_set(false), Ok(()));
-        assert!(!a.is_true());
+        unsafe {
+            assert_eq!(a.try_set(true), Ok(()));
+            assert!(a.is_true());
+            assert_eq!(a.try_set(true), Ok(()));
+            assert!(a.is_true());
+            assert_eq!(a.try_set(false), Ok(()));
+            assert!(!a.is_true());
+        }
     }
 
     #[test]
     fn test_set_second_true() {
         let mut a = UniqueBool::new();
         let mut b = UniqueBool::new();
-        a.try_set(true).unwrap();
-        assert_eq!(b.try_set(true), Err(()));
-        assert!(!b.is_true());
-        a.try_set(false).unwrap();
-        assert_eq!(b.try_set(true), Ok(()));
-        assert!(b.is_true());
+        unsafe {
+            let _ = a.try_set(true);
+            assert_eq!(b.try_set(true), Err(()));
+            assert!(!b.is_true());
+            a.try_set(false).unwrap();
+            assert_eq!(b.try_set(true), Ok(()));
+            assert!(b.is_true());
+        }
     }
 }
