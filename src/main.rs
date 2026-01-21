@@ -1,4 +1,3 @@
-mod renderable;
 mod state;
 mod transition;
 mod unique_bool;
