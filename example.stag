@@ -1,13 +1,5 @@
-(s0)<[$S_0$]
-(s1: right of=s0)[$S_1$]
-(s2: right of=s1)[$S_2$]
-(s3: right of=s2)*[$S_3$]
-
-s0 --(above)[5\textcent]> s1
-s0 --(bend left, above)[10\textcent]> s2
-s1 --(above)[5\textcent]> s2
-s1 --(bend right, below)[10\textcent]> s3
-s2 --(below)[5\textcent]> s3
-s2 --(bend left, below)[10\textcent]> s0
-s3 --(bend right, above)[5\textcent]> s1
-s3 --(bend right, below)[10\textcent]> s2
+{5\textcent, 10\textcent}
+(s0)<[$S_0$]{s1, s2}
+(s1)[$S_1$]{s2, s3}
+(s2)[$S_2$]{s3, s0}
+(s3)*[$S_3$]{s1, s2}
