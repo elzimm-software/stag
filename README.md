@@ -7,15 +7,14 @@ The initial intent for this DSL was to be integrated into org-mode via org-babel
 ## Grammar
 
 ```
-program -> (TOP_MATTER "\n")? alphabet "\n" nodes EOF ;
-alphabet -> "{" (LETTER ",")* "}";
-nodes -> node*;
-node -> variable flags name? transitions "\n"?;
-variable -> "(" VAR ")";
-flags -> "" | "<" | "*" | "<*" | "*<";
-name -> "[" NAME "]";
-transitions -> "{" transition* "}";
-transition -> VAR ",";
+program -> (TOP_MATTER NL)? alphabet NL nodes EOF ;
+alphabet -> "{" (TRANSITION ("," TRANSITION)*)? "}" ;
+nodes -> (node NL)+ ;
+node -> variable flags name? transitions ;
+variable -> "(" VAR ")" ;
+flags -> ("<" | "*" | "<*" | "*<")? ;
+name -> "[" NAME "]" ;
+transitions -> "{" (VAR ("," VAR)*)? "}" ;
 ```
 
 ### Top Matter
