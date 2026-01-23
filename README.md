@@ -32,5 +32,5 @@ where text after a double semicolon (`;;`) will be copied over into the compiled
 
 ## Source Code
 
-STAG is built with passing the source code as a string at the command line, but a `.stag` file may also be used.
+STAG is built with passing the source code as a string at the command line in mind, but a `.stag` file may also be used.
 The `-i` flag may also be specified to force the compiler to treat `<SOURCE>` as a string.  (This is useful if a state name contains `.stag`.)
