@@ -7,9 +7,10 @@ The initial intent for this DSL was to be integrated into org-mode via org-babel
 ## Grammar
 
 ```
-program -> (TOP_MATTER NL)? alphabet NL nodes EOF ;
+program -> (TOP_MATTER NL)? shape? alphabet NL nodes EOF ;
 alphabet -> "{" (TRANSITION ("," TRANSITION)*)? "}" ;
-nodes -> (node NL)+ ;
+shape -> "|" SHAPE "|" ;
+nodes -> node (NL node)* ;
 node -> variable flags name? transitions ;
 variable -> "(" VAR ")" ;
 flags -> ("<" | "*" | "<*" | "*<")? ;
