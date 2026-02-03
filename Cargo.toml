@@ -6,3 +6,5 @@ description = "A DSL for defining state transition diagrams."
 
 [dependencies]
 clap = { version = "4.5.54", features = ["derive"] }
+image = "0.25.9"
+pest = "2.8.5"
