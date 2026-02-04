@@ -26,15 +26,20 @@ and can be used for comments.
 
 ## Command Line Arguments
 
+### Output File
+
+STAG will output a png image with the name of the input file or `stag_out.png` for string inputs.
+The `-o` flag may be specified to define a custom output file; changing the file extension will have no bearing on the format.
+
 ### Implied Naming
 
 STAG's default behavior is such that states without an explicit name (within `[]`) are rendered without any text.
-The `-n` flag may be specified to make the compiler use the identifier (within `()`) as the rendered name for states without an explicit name.
+The `-n` flag may be specified to force the compiler to use the identifier (within `()`) as the rendered name for states without an explicit name.
 
 ### Source Code
 
 STAG is built with passing the source code as a string at the command line in mind, but a `.stag` file may also be used.
-The `-i` flag may also be specified to force the compiler to treat `<SOURCE>` as a string.  (This is useful if a state name contains `.stag`.)
+The `-i` flag may be specified to force the compiler to treat `<SOURCE>` as a string.  (This is useful if a state name contains `.stag`.)
 
 ## Context Free Grammar
 
