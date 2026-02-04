@@ -34,7 +34,7 @@ The `-o` flag may be specified to define a custom output file; changing the file
 ### Implied Naming
 
 STAG's default behavior is such that states without an explicit name (within `[]`) are rendered without any text.
-The `-n` flag may be specified to force the compiler to use the identifier (within `()`) as the rendered name for states without an explicit name.
+The `-f` flag may be specified to force the compiler to use the identifier (within `()`) as the rendered name for states without an explicit name.
 
 ### Source Code
 
@@ -51,6 +51,6 @@ state -> identifier flags name? transitions ;
 identifier -> "(" IDENT ")" ;
 flags -> ("<" | "*" | "<*" | "*<")? ;
 name -> "[" NAME "]" ;
-transitions -> "{" (IDENT ("," IDENT)*)? "}" ;
+transitions -> (IDENT (" " IDENT)*)? ;
 nl -> (";" | NL | ";" NL) ;
 ```
