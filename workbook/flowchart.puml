@@ -1,0 +1,79 @@
+@startuml
+hide empty description
+
+[*] --> GetArgs
+GetArgs --> ip_gss_args
+op_gss_error --> DisplayError
+op_gss_source_string --> ip_cfd_source_string
+op_cfd_error --> DisplayError
+DisplayError --> [*]
+op_cfd_formal_definition --> ip_gi_formal_definition
+op_gi_error --> [*]
+op_gi_ok --> [*]
+
+state GetArgs as "Get Args"
+state DisplayError as "Display Error"
+
+state "Get Source String" as GetSourceString {
+    state "args" as ip_gss_args <<inputPin>>
+    state "error" as op_gss_error <<outputPin>>
+    state "source string" as op_gss_source_string <<outputPin>>
+    ip_gss_args --> ParseArgs
+    ParseArgs --> ch_i_flag : valid
+    ParseArgs --> op_gss_error : invalid
+    ch_i_flag --> op_gss_source_string : '-i' flag set
+    ch_i_flag --> ch_file_path : '-i' flag not set
+    ch_file_path --> ip_rss_file_path : is file path
+    ch_file_path --> op_gss_source_string : is not file path
+    op_rss_source_string --> op_gss_source_string
+    op_rss_error --> op_gss_error
+
+    state "Read Source String" as ReadSourceString {
+        state "file path" as ip_rss_file_path <<inputPin>>
+        state "error" as op_rss_error <<outputPin>>
+        state "source string" as op_rss_source_string <<outputPin>>
+        ip_rss_file_path --> OpenFile
+        OpenFile --> ReadFile : success
+        OpenFile --> op_rss_error : failure
+        ReadFile --> op_rss_error : failure
+        ReadFile --> op_rss_source_string : success
+
+        state "Open File" as OpenFile
+        state "Read File" as ReadFile
+    }
+
+    state "Parse Args" as ParseArgs
+
+    state ch_i_flag <<choice>>
+    state ch_file_path <<choice>>
+}
+
+state "Compile Formal Definition" as CompileFormalDefinition {
+    state "source string" as ip_cfd_source_string <<inputPin>>
+    state "formal definition" as op_cfd_formal_definition <<outputPin>>
+    state "error" as op_cfd_error <<outputPin>>
+    ip_cfd_source_string --> ParseSourceString
+    ParseSourceString --> op_cfd_error : syntax error
+    ParseSourceString --> DefineAlphabet : success
+    DefineAlphabet --> DefineStates
+    DefineStates --> op_cfd_formal_definition
+
+    state "Parse Source String" as ParseSourceString
+    state "Define Alphabet" as DefineAlphabet
+    state "Define States" as DefineStates
+}
+
+state "Generate Image" as GenerateImage {
+    ' Sugiyama Style
+    state "formal definition" as ip_gi_formal_definition <<inputPin>>
+    state "error" as op_gi_error <<outputPin>>
+    state "ok" as op_gi_ok <<outputPin>>
+    ip_gi_formal_definition --> ApplyLayeredGraphDrawing
+    ApplyLayeredGraphDrawing --> WriteImage
+    WriteImage --> op_gi_error : failure
+    WriteImage --> op_gi_ok : success
+
+    state ApplyLayeredGraphDrawing as "Apply Layered Graph Drawing"
+    state WriteImage as "Write Image"
+}
+@enduml
