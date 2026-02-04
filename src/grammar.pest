@@ -1,0 +1,17 @@
+WHITESPACE = _{ " " | "\t" }
+COMMENT = _{";;" ~ (!"\n" ~ ANY)* }
+
+nl = _{ ("\r\n" | "\n") }
+ident = @{ (ASCII_ALPHA | "_" ) ~ (ASCII_ALPHANUMERIC | "_")* }
+string = @{(!"]"~ ANY)*}
+letter = @{(!("}"|",") ~ ANY)*}
+name = _{"[" ~ string ~ "]"}
+transitions = { (ident ~ ident*)? }
+start_first = _{"<" ~ "*"?}
+accept_first = _{"*" ~ "<"?}
+flag = @{ start_first | accept_first }
+identifier = _{"(" ~ ident ~ ")"}
+state = {identifier ~ flag? ~ name? ~ transitions}
+states = {state ~ (nl ~ state)*}
+alphabet = {"{" ~ (letter ~ ",")* ~ letter? ~ "}"}
+program = _{SOI ~ alphabet ~ nl+ ~ states ~ nl* ~ EOI}

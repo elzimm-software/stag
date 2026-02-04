@@ -14,4 +14,5 @@ fn main() {
     } else {
         fs::read_to_string(&args.source).unwrap() // TODO: implement error handling
     };
+    Stag::parse_source(source);
 }
