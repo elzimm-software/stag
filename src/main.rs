@@ -1,11 +1,11 @@
-use std::path::PathBuf;
+mod args;
+mod parser;
+
 use clap::Parser;
 use crate::args::Args;
 use std::fs;
 use crate::parser::Stag;
 
-mod args;
-mod parser;
 
 fn main() {
     let args = Args::parse();
