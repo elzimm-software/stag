@@ -14,4 +14,4 @@ identifier = _{"(" ~ ident ~ ")"}
 state = {identifier ~ flag? ~ name? ~ transitions}
 states = {state ~ (nl ~ state)*}
 alphabet = {"{" ~ (letter ~ ",")* ~ letter? ~ "}"}
-program = _{SOI ~ alphabet ~ nl+ ~ states ~ nl* ~ EOI}
+program = _{SOI ~ nl* ~ alphabet ~ nl+ ~ states ~ nl* ~ EOI}
